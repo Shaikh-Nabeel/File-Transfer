@@ -1,2 +1,2 @@
 # File-Transfer
-A simple app to transfer files
+A simple NetBeans application to transfer files on localhost using Socket programming
