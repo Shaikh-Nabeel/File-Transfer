@@ -11,6 +11,7 @@
 import java.net.*;
 import java.io.*;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 public class Client_File extends javax.swing.JFrame {
 
     /**
@@ -19,8 +20,7 @@ public class Client_File extends javax.swing.JFrame {
     static Socket s;
    
     static OutputStream dos;
-    
-    
+    static InputStream din;
     public Client_File() {
         initComponents();
     }
@@ -62,6 +62,11 @@ public class Client_File extends javax.swing.JFrame {
         jMenu1.add(open);
 
         exit.setText("Exit");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
         jMenu1.add(exit);
 
         jMenuBar1.add(jMenu1);
@@ -105,10 +110,10 @@ public class Client_File extends javax.swing.JFrame {
         
         try{
             FileInputStream fis = new FileInputStream(file);
-            byte [] b = new byte[5000];
+                     byte [] b = new byte[2000];
+            dos =s.getOutputStream();    
             fis.read(b, 0, b.length);
-            dos =s.getOutputStream();
-            dos.write(b,0,b.length);
+            dos.write(b,0, b.length);
             msg_area.setText(file.getName()+" : Send");
         }
         catch(IOException e){
@@ -116,6 +121,18 @@ public class Client_File extends javax.swing.JFrame {
         }
     }
     }//GEN-LAST:event_openActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        try{
+        s.close();
+//        dos.close();
+        din.close();
+        }
+        catch(IOException e){
+            System.out.println("Error..."+ e);
+        }
+    }//GEN-LAST:event_exitActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,8 +170,20 @@ public class Client_File extends javax.swing.JFrame {
         
         try{
             s = new Socket("127.0.0.1", 2000);
-            msg_area.setText("Connected\n");
+             JOptionPane.showInputDialog("what's your name?");
+             
+            msg_area.setText(msg_area.getText().trim()+"\nConnected...");
+//             msg_area.setText(msg_area.getText().trim()+"\nConnected" );
+
+            din = s.getInputStream();
             
+            byte [] b = new byte[2000];
+            FileOutputStream fr = new FileOutputStream("C:\\Users\\Shaikh Nabs\\Desktop\\FileFromServer.txt");
+            din.read(b, 0 , b.length);
+            fr.write(b, 0, b.length);
+//            msg_area.setText(msg_area.getText().trim()+"\nReceived" );
+           
+
         }
         catch(Exception e){
             System.out.println("Error: "+ e);

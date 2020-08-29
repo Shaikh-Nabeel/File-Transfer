@@ -10,6 +10,7 @@
  */
 import java.net.*;
 import java.io.*;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class Server_File extends javax.swing.JFrame {
@@ -20,6 +21,7 @@ public class Server_File extends javax.swing.JFrame {
     static InputStream din;
     static Socket s;
     static ServerSocket ss;
+    static OutputStream dos;
     public Server_File() {
         initComponents();
     }
@@ -33,14 +35,40 @@ public class Server_File extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         msg_area = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        open = new javax.swing.JMenuItem();
+        exit = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         msg_area.setColumns(20);
         msg_area.setRows(5);
         jScrollPane1.setViewportView(msg_area);
+
+        jMenu1.setText("File");
+
+        open.setText("Open");
+        open.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openActionPerformed(evt);
+            }
+        });
+        jMenu1.add(open);
+
+        exit.setText("Exit");
+        jMenu1.add(exit);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -56,11 +84,31 @@ public class Server_File extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void openActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openActionPerformed
+        int returnVal = fileChooser.showOpenDialog(this);
+    if(returnVal == JFileChooser.APPROVE_OPTION){
+        File file = fileChooser.getSelectedFile();
+        
+        try{
+            FileInputStream fis = new FileInputStream(file);
+                     byte [] b = new byte[2000];
+            dos =s.getOutputStream();    
+            fis.read(b, 0, b.length);
+            dos.write(b,0, b.length);
+            msg_area.setText(file.getName()+" : Send");
+        }
+        catch(IOException e){
+            System.out.println("Error..."+e);
+        }
+    }
+
+    }//GEN-LAST:event_openActionPerformed
 
     /**
      * @param args the command line arguments
@@ -98,20 +146,23 @@ public class Server_File extends javax.swing.JFrame {
         
         try{
             ss = new ServerSocket(2000);
-            String temp = "Connecting...";
-//            msg_area.append(msg_area.getText().trim()+" \n"+ temp);
+//          msg_area.append(msg_area.getText().trim()+" \n"+ temp);
+            String temp = "what's your name?";
             JOptionPane.showInputDialog(temp);
-            
+             
+             
             s = ss.accept();
+           
             msg_area.append(msg_area.getText().trim()+"\nConnected" );
-            
+
             din = s.getInputStream();
-            
-            byte [] b = new byte[2002];
-            FileOutputStream fr = new FileOutputStream("C:\\Users\\Shaikh Nabs\\Desktop\\NewTFile.txt");
+          
+            byte [] b = new byte[2000];
+            FileOutputStream fr = new FileOutputStream("C:\\Users\\Shaikh Nabs\\Desktop\\FileFromClient.txt");
             din.read(b, 0 , b.length);
             fr.write(b, 0, b.length);
-           msg_area.setText(msg_area.getText().trim()+"\nReceived" );
+//           msg_area.setText(msg_area.getText().trim()+"\nReceived" );
+            
         }
         catch(IOException e){
             System.out.println("Error..."+ e);
@@ -119,7 +170,13 @@ public class Server_File extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem exit;
+    private javax.swing.JFileChooser fileChooser;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTextArea msg_area;
+    private javax.swing.JMenuItem open;
     // End of variables declaration//GEN-END:variables
 }
