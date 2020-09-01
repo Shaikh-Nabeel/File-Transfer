@@ -6,7 +6,7 @@ A simple NetBeans application to transfer files on localhost using Socket progra
   You can send file to server through client and vice-versa (by browsing file from your system).
   This program can transfer file upto 2000 bytes, i will update the program to transfer file of it's full length.
 <br>
-<h1>What Change You Have To Do If You Want To Run This Application On Your System</h1>
+<h1>What Changes You Have To Do If You Want To Run This Application On Your System</h1>
   This program is hard cored on my system
   You have to open both file (client and server) and change the directory in 'FileOutputStream'.
   
