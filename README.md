@@ -16,3 +16,7 @@ A simple NetBeans desktop application to transfer files and group chatiing on lo
   <li>Java Development Kit (JDK)</li>
   <li>Copy this application on two different directory and run, then share files and checkout the location of received file</li>
   </ul>
+<h1>How To Launch The Application</h1>
+  <ul>
+  <li><a href= "https://github.com/Shaikh-Nabeel/Group-Chat-Share/tree/master/Launching%20Application%20Demo">Launch The Application</li>
+  </ul>
